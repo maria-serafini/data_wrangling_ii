@@ -1,0 +1,133 @@
+---
+title: "strings_and_factors"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+  )
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+  )
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+Load key packages
+```{r}
+library(rvest)
+```
+
+
+## Mostly use string vectors
+
+```{r}
+string_vec = c("My", "name", "is", "maria")
+
+str_detect(string_vec, "maria") #look for matches in string i'm looking for, where do i find pattern
+str_detect(string_vec, "e")
+str_detect(string_vec, "Maria") # case sensitive
+
+str_replace(string_vec, "maria", "Maria")
+str_replace(string_vec, "e", "E") #can replace as little or much as you want
+
+str_replace(string_vec, "e", "") #helpful for removing white space
+str_remove(string_vec, "e")
+```
+
+
+(Copied from p8105.com)
+
+```{r}
+string_vec = c(
+  "i think we all rule for participating",
+  "i think i have been caught",
+  "i think this will be quite fun actually",
+  "it will be fun, i think"
+  )
+
+str_detect(string_vec, "i think")
+str_detect(string_vec, "^i think") # start of the string
+str_detect(string_vec, "i think$") # end of the string
+
+str_remove(string_vec, "i think$")
+```
+
+
+Pumpkin themed example!
+
+```{r}
+string_vec = c(
+  "Time for a Pumpkin Spice Latte!",
+  "went to the #pumpkinpatch last weekend",
+  "Pumpkin Pie is obviously the best pie",
+  "SMASHING PUMPKINS -- LIVE IN CONCERT!!"
+  )
+
+str_detect(string_vec, "pumpkin")
+str_detect(string_vec, "Pumpkin")
+str_detect(string_vec,"[Pp]umpkin") #anything in [] counts, everything else has to match exactly
+```
+
+
+Let's get a bit more complicated
+```{r}
+string_vec = c(
+  '7th inning stretch',
+  '1st half soon to begin. Texas won the toss.',
+  'she is 5 feet 4 inches tall',
+  '3AM - cant sleep :('
+  )
+
+str_detect(string_vec, "[0-9][a-zA-Z]") # number followed by either lowercase or uppercase letter
+```
+
+
+
+```{r}
+string_vec = c(
+  'Its 7:11 in the evening',
+  'want to go to 7-11?',
+  'my flight is AA711',
+  'NetBios: scanning ip 203.167.114.66'
+  )
+
+str_detect(string_vec, "7.1") # . (dot) is special character, means anything matches to it
+str_detect(string_vec, "7\\.1") # detecting special character, have to indicate its a special character have to add "\" but \ is also a special character so \\
+```
+
+
+```{r}
+string_vec = c(
+  'The CI is [2, 5]',
+  ':-]',
+  ':-[',
+  'I found the answer on pages [6-7]'
+  )
+
+str_detect(string_vec, "\\[")
+```
+
+
+## Factors
+
+```{r}
+vec_sex = factor(c("male", "male", "female", "female"))
+vec_sex
+
+as.numeric(vec_sex)
+
+vec_sex = fct_inorder(vec_sex)
+vec_sex
+```
+
